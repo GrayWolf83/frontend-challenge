@@ -40,12 +40,11 @@ body {
 }
 
 .card:hover {
-	box-shadow: -2px 14px 18px 8px rgba(34, 60, 80, 0.2);
+	box-shadow: 0px 7px 6px 4px rgba(34, 60, 80, 0.32);
 	height: 256px;
 }
 
-.card:hover *,
-.card__favorite.active {
+.card:hover * {
 	transform: translateY(0);
 }
 

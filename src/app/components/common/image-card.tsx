@@ -21,7 +21,7 @@ const ImageCard = ({ image }: IProps) => {
 				style={{
 					backgroundImage: `url('${image.url}')`,
 				}}></div>
-			<div className={`card__favorite${image.favorite ? ' active' : ''}`}>
+			<div className='card__favorite'>
 				<img
 					className='card__favorite-icon'
 					onClick={() => favoriteChangeHandler(image.id)}
