@@ -1,4 +1,4 @@
-##Проект опубликован на Netlify
+## Проект опубликован на Netlify
 [Посмотреть проек на Netlify](https://629474a2b0f7b670404a9258--stellular-bienenstitch-5dc45c.netlify.app/)
 
 ## Что нужно сделать ?
