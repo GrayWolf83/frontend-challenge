@@ -2,7 +2,7 @@
   "name": "frontend-challenge",
   "version": "1.0.0",
   "description": "Тестовое задание",
-  "main": "index.tsx",
+  "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build"
@@ -17,14 +17,20 @@
     "url": "https://github.com/GrayWolf83/frontend-challenge/issues"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
+    "axios": "^0.27.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "typescript": "^4.7.2"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.5"
+    "@types/react-dom": "^18.0.5",
+    "@types/react-router-dom": "^5.3.3"
   },
   "browserslist": {
     "production": [
