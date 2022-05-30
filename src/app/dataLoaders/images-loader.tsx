@@ -18,11 +18,15 @@ const ImagesLoader = ({ children }: IProps) => {
 
 	useEffect(() => {
 		if (!dataLoaded) {
-			dispatch(loadImagesList())
+			dispatch(loadImagesList(1))
 		}
 	}, [])
 
-	return isLoading ? <Loader /> : children
+	if (!dataLoaded && isLoading) {
+		return <Loader />
+	}
+
+	return children
 }
 
 export default ImagesLoader

@@ -3,9 +3,15 @@ import httpService from './http.service'
 const endpoint = 'images/'
 
 const imageService = {
-	getImages: async () => {
-		const { data } = await httpService.get(endpoint + 'search?limit=50')
-		return data
+	getImages: async (page: number) => {
+		const payload = await httpService.get(
+			endpoint + 'search?limit=20&page=' + page,
+		)
+
+		return {
+			data: payload.data,
+			totalCount: payload.headers['pagination-count'],
+		}
 	},
 }
 

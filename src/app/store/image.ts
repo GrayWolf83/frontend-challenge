@@ -6,12 +6,16 @@ import imageService from '../services/image.service'
 
 type imageState = {
 	entities: Image[]
+	loadedPage: number
+	totalCount: number
 	dataLoaded: boolean
 	isLoading: boolean
 }
 
 const initialState: imageState = {
 	entities: [],
+	loadedPage: 1,
+	totalCount: 0,
 	dataLoaded: false,
 	isLoading: true,
 }
@@ -20,12 +24,29 @@ const imageSlice = createSlice({
 	name: 'images',
 	initialState,
 	reducers: {
-		imagesLoaded(state, action: PayloadAction<Image[]>) {
-			state.entities = action.payload
+		imagesLoadingStart(state) {
+			state.isLoading = true
+		},
+		imagesLoaded(
+			state,
+			action: PayloadAction<{ entities: Image[]; totalCount: number }>,
+		) {
+			const tempEntities = [...state.entities]
+			action.payload.entities.forEach((image) => {
+				if (!tempEntities.find((item) => item.id === image.id)) {
+					tempEntities.push(image)
+				}
+			})
+
+			state.entities = tempEntities
+			state.totalCount = action.payload.totalCount
 			state.dataLoaded = true
 		},
 		imagesLoadingEnd(state) {
 			state.isLoading = false
+		},
+		imagesLoadedPageChanged(state) {
+			state.loadedPage = state.loadedPage + 1
 		},
 		imageFavoriteChanged(state, action: PayloadAction<string>) {
 			state.entities = state.entities.map((image) => {
@@ -42,25 +63,36 @@ const imageSlice = createSlice({
 	},
 })
 
-const { imagesLoaded, imagesLoadingEnd, imageFavoriteChanged } =
-	imageSlice.actions
+const {
+	imagesLoadingStart,
+	imagesLoaded,
+	imagesLoadingEnd,
+	imageFavoriteChanged,
+	imagesLoadedPageChanged,
+} = imageSlice.actions
 
-export const loadImagesList = () => async (dispatch: AppDispatch) => {
-	try {
-		const payload = await imageService.getImages()
-		dispatch(
-			imagesLoaded(
-				payload.map((item: Image) => ({ ...item, favorite: false })),
-			),
-		)
-	} catch (error: any) {
-		if (error?.message) {
-			dispatch(setLoadingError(error.message))
+export const loadImagesList =
+	(page: number) => async (dispatch: AppDispatch) => {
+		dispatch(imagesLoadingStart())
+		try {
+			const { data, totalCount } = await imageService.getImages(page)
+			dispatch(
+				imagesLoaded({
+					entities: data.map((item: Image) => ({
+						...item,
+						favorite: false,
+					})),
+					totalCount: Number(totalCount),
+				}),
+			)
+		} catch (error: any) {
+			if (error?.message) {
+				dispatch(setLoadingError(error.message))
+			}
+		} finally {
+			dispatch(imagesLoadingEnd())
 		}
-	} finally {
-		dispatch(imagesLoadingEnd())
 	}
-}
 
 export const getImagesList = () => (state: RootState) => {
 	return state.images.entities
@@ -68,6 +100,18 @@ export const getImagesList = () => (state: RootState) => {
 
 export const getImagesFavoritesList = () => (state: RootState) => {
 	return state.images.entities.filter((image) => image.favorite)
+}
+
+export const getImagesTotalCount = () => (state: RootState) => {
+	return state.images.totalCount
+}
+
+export const getImagesLoadedPage = () => (state: RootState) => {
+	return state.images.loadedPage
+}
+
+export const changeImagesLoadedPage = () => (dispatch: AppDispatch) => {
+	dispatch(imagesLoadedPageChanged())
 }
 
 export const getImagesLoaded = () => (state: RootState) => {

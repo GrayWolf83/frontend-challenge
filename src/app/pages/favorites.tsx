@@ -8,7 +8,11 @@ const Favorites = () => {
 
 	return (
 		<div className='page'>
-			<ImagesCardsList images={images} />
+			{images.length ? (
+				<ImagesCardsList images={images} />
+			) : (
+				<p>Любимые котики еще не выбраны.</p>
+			)}
 		</div>
 	)
 }

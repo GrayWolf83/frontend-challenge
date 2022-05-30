@@ -12,14 +12,16 @@ body {
 }
 
 .loader {
-	width: 80%;
+	width: 40%;
 	margin: 40vh auto 0;
 }
 
 .page {
 	width: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 }
 
 .cards {
@@ -70,6 +72,9 @@ body {
 }
 
 @media (max-width: 992px) {
+	.loader {
+		width: 60%;
+	}
 	.card {
 		flex-basis: 22%;
 	}
@@ -82,6 +87,10 @@ body {
 }
 
 @media (max-width: 600px) {
+	.loader {
+		width: 80%;
+	}
+
 	.card {
 		flex-basis: 45%;
 	}

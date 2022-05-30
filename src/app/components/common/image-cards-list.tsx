@@ -10,7 +10,7 @@ const ImagesCardsList = ({ images }: IProps) => {
 	return (
 		<div className='cards'>
 			{images.map((image) => (
-				<ImageCard image={image} key={image.id} />
+				<ImageCard image={image} key={'aA' + image.id} />
 			))}
 		</div>
 	)
